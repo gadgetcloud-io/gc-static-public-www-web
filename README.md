@@ -927,4 +927,4 @@ For issues or questions:
 **Last Updated**: 2025-12-11
 **Security Audit**: 2025-12-11 (Score: 98/100)
 **Maintained By**: GadgetCloud Team
-**Repository**: https://github.com/ganesh-gc/gc-static-www-web
+**Repository**: https://github.com/gadgetcloud-io/gc-static-public-www-web
