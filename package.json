@@ -1,0 +1,21 @@
+{
+  "name": "gc-static-public-www-web",
+  "version": "1.0.0",
+  "description": "GadgetCloud static marketing website",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug"
+  },
+  "keywords": [
+    "gadgetcloud",
+    "static-site"
+  ],
+  "author": "GadgetCloud",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

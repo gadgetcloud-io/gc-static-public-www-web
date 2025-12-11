@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 GadgetCloud static marketing website - a static HTML/CSS/JS site for www.gadgetcloud.io that showcases a gadget inventory and management platform. The site includes a contact form that submits to a REST API backend.
 
+**For complete CI/CD pipeline documentation, deployment workflows, and GitHub Actions integration, see [CICD.md](CICD.md).**
+
 ## Architecture
 
 **Multi-Environment Static Site with AWS Deployment**
@@ -49,6 +51,8 @@ VERSION                # Semantic version number (e.g., 1.0.0)
 
 ## Development Commands
 
+**Note:** For complete workflow documentation including CI/CD pipelines, see [CICD.md](CICD.md).
+
 ### Infrastructure Management
 ```bash
 # Validate Terraform configuration
@@ -91,17 +95,26 @@ VERSION                # Semantic version number (e.g., 1.0.0)
 
 ### E2E Testing
 ```bash
+# Run Playwright tests on local (auto-starts server)
+./scripts/07_html_playwright_tests.sh local
+
 # Run Playwright tests against staging
 ./scripts/07_html_playwright_tests.sh stg
 
+# Run Playwright tests against production
+./scripts/07_html_playwright_tests.sh prd
+
 # Run with browser visible
-./scripts/07_html_playwright_tests.sh stg --headed
+./scripts/07_html_playwright_tests.sh local --headed
 
 # Run in debug mode
 ./scripts/07_html_playwright_tests.sh stg --debug
 
 # Run in UI mode
-./scripts/07_html_playwright_tests.sh stg --ui
+./scripts/07_html_playwright_tests.sh prd --ui
+
+# Run specific tests
+./scripts/07_html_playwright_tests.sh local --grep="Visual Enhancements"
 
 # Or run directly with npx
 npx playwright test                    # Run all tests

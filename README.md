@@ -2,6 +2,8 @@
 
 **www.gadgetcloud.io** - A static marketing website for GadgetCloud's gadget inventory and management platform.
 
+📘 **[CI/CD Pipeline Documentation](CICD.md)** - Complete deployment workflows, testing strategies, and GitHub Actions integration.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -912,6 +914,7 @@ aws cloudfront create-invalidation \
 
 ## Documentation
 
+- **CI/CD Pipeline**: [CICD.md](CICD.md) - Complete deployment and testing workflows
 - **Terraform**: [terraform/README.md](terraform/README.md)
 - **AI Instructions**: [CLAUDE.md](CLAUDE.md)
 - **Manifest Audit**: [MANIFEST_AUDIT.md](MANIFEST_AUDIT.md)

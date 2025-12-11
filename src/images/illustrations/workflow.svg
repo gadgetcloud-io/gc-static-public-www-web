@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" fill="none">
+  <!-- Workflow diagram -->
+  <defs>
+    <linearGradient id="workflowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0ea5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+    <filter id="workflowShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Step 1: Capture -->
+  <g transform="translate(50, 80)">
+    <rect x="0" y="0" width="160" height="140" rx="12" fill="#ffffff" stroke="url(#workflowGrad)" stroke-width="3" filter="url(#workflowShadow)"/>
+    <circle cx="80" cy="50" r="30" fill="url(#workflowGrad)" opacity="0.2"/>
+    <text x="80" y="45" font-family="Arial" font-size="28" fill="#3b82f6" font-weight="700" text-anchor="middle">1</text>
+    <text x="80" y="100" font-family="Arial" font-size="16" fill="#1e293b" font-weight="600" text-anchor="middle">Capture</text>
+    <text x="80" y="120" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">Add devices &amp;</text>
+    <text x="80" y="135" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">documents</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <g transform="translate(220, 145)">
+    <line x1="0" y1="0" x2="80" y2="0" stroke="url(#workflowGrad)" stroke-width="3" stroke-dasharray="5,5"/>
+    <polygon points="80,0 70,5 70,-5" fill="#0ea5e9"/>
+  </g>
+
+  <!-- Step 2: Automate -->
+  <g transform="translate(320, 80)">
+    <rect x="0" y="0" width="160" height="140" rx="12" fill="#ffffff" stroke="url(#workflowGrad)" stroke-width="3" filter="url(#workflowShadow)"/>
+    <circle cx="80" cy="50" r="30" fill="url(#workflowGrad)" opacity="0.2"/>
+    <text x="80" y="45" font-family="Arial" font-size="28" fill="#0ea5e9" font-weight="700" text-anchor="middle">2</text>
+    <text x="80" y="100" font-family="Arial" font-size="16" fill="#1e293b" font-weight="600" text-anchor="middle">Automate</text>
+    <text x="80" y="120" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">Set reminders &amp;</text>
+    <text x="80" y="135" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">alerts</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <g transform="translate(490, 145)">
+    <line x1="0" y1="0" x2="80" y2="0" stroke="url(#workflowGrad)" stroke-width="3" stroke-dasharray="5,5"/>
+    <polygon points="80,0 70,5 70,-5" fill="#10b981"/>
+  </g>
+
+  <!-- Step 3: Act -->
+  <g transform="translate(590, 80)">
+    <rect x="0" y="0" width="160" height="140" rx="12" fill="#ffffff" stroke="url(#workflowGrad)" stroke-width="3" filter="url(#workflowShadow)"/>
+    <circle cx="80" cy="50" r="30" fill="url(#workflowGrad)" opacity="0.2"/>
+    <text x="80" y="45" font-family="Arial" font-size="28" fill="#10b981" font-weight="700" text-anchor="middle">3</text>
+    <text x="80" y="100" font-family="Arial" font-size="16" fill="#1e293b" font-weight="600" text-anchor="middle">Act</text>
+    <text x="80" y="120" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">Resolve issues &amp;</text>
+    <text x="80" y="135" font-family="Arial" font-size="11" fill="#64748b" text-anchor="middle">track claims</text>
+  </g>
+
+  <!-- Decorative circles -->
+  <circle cx="130" cy="40" r="15" fill="#3b82f6" opacity="0.1"/>
+  <circle cx="400" cy="260" r="20" fill="#0ea5e9" opacity="0.1"/>
+  <circle cx="670" cy="40" r="12" fill="#10b981" opacity="0.1"/>
+</svg>

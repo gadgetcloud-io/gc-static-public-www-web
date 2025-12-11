@@ -1,7 +1,7 @@
 #!/bin/bash
 # Playwright E2E Testing Script
-# Runs Playwright tests against deployed environments
-# Usage: ./scripts/07_html_playwright_tests.sh [stg|prd] [options]
+# Runs Playwright tests against local or deployed environments
+# Usage: ./scripts/07_html_playwright_tests.sh [local|stg|prd] [options]
 
 set -e
 
@@ -23,15 +23,18 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Parse arguments
-ENV="${1:-stg}"
+ENV="${1:-local}"
 TEST_MODE="all"
 EXTRA_ARGS=""
+LOCAL_SERVER_PID=""
+LOCAL_PORT="8000"
 
 # Normalize environment
 case "$ENV" in
+    local|loc|localhost) ENV="local"; ENV_NAME="Local" ;;
     staging|stg) ENV="stg"; ENV_NAME="Staging" ;;
     production|prd|prod) ENV="prd"; ENV_NAME="Production" ;;
-    *) ENV="stg"; ENV_NAME="Staging" ;;
+    *) ENV="local"; ENV_NAME="Local" ;;
 esac
 
 # Parse additional options
@@ -106,14 +109,21 @@ fi
 success "package.json exists"
 
 # Read environment configuration
-CONFIG_FILE="$ROOT_DIR/environments/$ENV/config.yaml"
-if [ ! -f "$CONFIG_FILE" ]; then
-    error "Config file not found: $CONFIG_FILE"
-fi
-success "Environment config found"
+if [ "$ENV" = "local" ]; then
+    HOSTNAME="localhost:$LOCAL_PORT"
+    BASE_URL="http://$HOSTNAME"
+    info "Target: $BASE_URL"
+else
+    CONFIG_FILE="$ROOT_DIR/environments/$ENV/config.yaml"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        error "Config file not found: $CONFIG_FILE"
+    fi
+    success "Environment config found"
 
-HOSTNAME=$(yq eval '.hostName' "$CONFIG_FILE")
-info "Target: https://$HOSTNAME"
+    HOSTNAME=$(yq eval '.hostName' "$CONFIG_FILE")
+    BASE_URL="https://$HOSTNAME"
+    info "Target: $BASE_URL"
+fi
 
 # Check if node_modules exists
 section "Checking Dependencies"
@@ -157,7 +167,7 @@ if [ ! -d "$TEST_DIR" ]; then
     error "Tests directory not found: $TEST_DIR"
 fi
 
-TEST_FILES=("pages.spec.ts" "navigation.spec.ts" "contact-form.spec.ts")
+TEST_FILES=("pages.spec.ts" "navigation.spec.ts" "contact-form.spec.ts" "visual-enhancements.spec.ts")
 TEST_COUNT=0
 
 for file in "${TEST_FILES[@]}"; do
@@ -175,28 +185,55 @@ fi
 
 info "Found $TEST_COUNT test files"
 
-# Check if site is accessible
-section "Testing Site Accessibility"
+# Start local server if testing locally
+if [ "$ENV" = "local" ]; then
+    section "Starting Local Server"
 
-info "Checking: https://$HOSTNAME"
+    # Check if port is already in use
+    if lsof -Pi :$LOCAL_PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+        warn "Port $LOCAL_PORT is already in use"
+        info "Using existing server on port $LOCAL_PORT"
+        USING_EXISTING_SERVER=true
+    else
+        info "Starting HTTP server on port $LOCAL_PORT..."
+        cd "$ROOT_DIR/src"
+        python3 -m http.server $LOCAL_PORT >/dev/null 2>&1 &
+        LOCAL_SERVER_PID=$!
+        USING_EXISTING_SERVER=false
 
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "https://$HOSTNAME" 2>/dev/null || echo "000")
+        # Wait for server to start
+        sleep 2
 
-if [ "$HTTP_STATUS" = "200" ]; then
-    success "Site is accessible (HTTP $HTTP_STATUS)"
-elif [ "$HTTP_STATUS" = "403" ]; then
-    warn "Site returned HTTP 403 - content may not be deployed yet"
-    read -p "Continue with tests anyway? (yes/no): " -r
-    if [[ ! $REPLY =~ ^[Yy](es)?$ ]]; then
-        info "Tests cancelled"
-        exit 0
+        if kill -0 $LOCAL_SERVER_PID 2>/dev/null; then
+            success "Local server started (PID: $LOCAL_SERVER_PID)"
+        else
+            error "Failed to start local server"
+        fi
     fi
 else
-    warn "Site returned HTTP $HTTP_STATUS"
-    read -p "Continue with tests anyway? (yes/no): " -r
-    if [[ ! $REPLY =~ ^[Yy](es)?$ ]]; then
-        info "Tests cancelled"
-        exit 0
+    # Check if remote site is accessible
+    section "Testing Site Accessibility"
+
+    info "Checking: $BASE_URL"
+
+    HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$BASE_URL" 2>/dev/null || echo "000")
+
+    if [ "$HTTP_STATUS" = "200" ]; then
+        success "Site is accessible (HTTP $HTTP_STATUS)"
+    elif [ "$HTTP_STATUS" = "403" ]; then
+        warn "Site returned HTTP 403 - content may not be deployed yet"
+        read -p "Continue with tests anyway? (yes/no): " -r
+        if [[ ! $REPLY =~ ^[Yy](es)?$ ]]; then
+            info "Tests cancelled"
+            exit 0
+        fi
+    else
+        warn "Site returned HTTP $HTTP_STATUS"
+        read -p "Continue with tests anyway? (yes/no): " -r
+        if [[ ! $REPLY =~ ^[Yy](es)?$ ]]; then
+            info "Tests cancelled"
+            exit 0
+        fi
     fi
 fi
 
@@ -206,7 +243,7 @@ section "Running Playwright Tests"
 cd "$ROOT_DIR"
 
 # Set base URL for tests
-export BASE_URL="https://$HOSTNAME"
+export BASE_URL="$BASE_URL"
 
 info "Base URL: $BASE_URL"
 info "Test mode: $TEST_MODE"
@@ -216,6 +253,18 @@ if [ -n "$EXTRA_ARGS" ]; then
 fi
 
 echo ""
+
+# Cleanup function for local server
+cleanup_local_server() {
+    if [ "$ENV" = "local" ] && [ -n "$LOCAL_SERVER_PID" ] && [ "$USING_EXISTING_SERVER" = "false" ]; then
+        info "Stopping local server (PID: $LOCAL_SERVER_PID)..."
+        kill $LOCAL_SERVER_PID 2>/dev/null || true
+        success "Local server stopped"
+    fi
+}
+
+# Set trap to cleanup on exit
+trap cleanup_local_server EXIT INT TERM
 
 # Run tests based on mode
 case "$TEST_MODE" in
@@ -238,6 +287,9 @@ case "$TEST_MODE" in
 esac
 
 TEST_EXIT_CODE=$?
+
+# Cleanup local server
+cleanup_local_server
 
 echo ""
 

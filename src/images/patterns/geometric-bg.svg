@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" fill="none">
+  <!-- Subtle geometric background pattern -->
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="1.5" fill="#3b82f6" opacity="0.05"/>
+    </pattern>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGrad)"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <!-- Floating geometric shapes -->
+  <circle cx="100" cy="150" r="120" fill="#3b82f6" opacity="0.03"/>
+  <circle cx="1050" cy="200" r="180" fill="#0ea5e9" opacity="0.03"/>
+  <circle cx="200" cy="650" r="150" fill="#10b981" opacity="0.03"/>
+  <circle cx="950" cy="600" r="100" fill="#3b82f6" opacity="0.03"/>
+
+  <!-- Hexagons -->
+  <polygon points="400,50 440,75 440,125 400,150 360,125 360,75" fill="#3b82f6" opacity="0.02"/>
+  <polygon points="800,500 850,530 850,590 800,620 750,590 750,530" fill="#0ea5e9" opacity="0.02"/>
+</svg>

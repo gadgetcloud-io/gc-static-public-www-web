@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" fill="none">
+  <!-- Contact support illustration -->
+  <defs>
+    <linearGradient id="contactGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="250" cy="200" r="150" fill="url(#contactGrad)" opacity="0.1"/>
+  <circle cx="100" cy="100" r="60" fill="#10b981" opacity="0.05"/>
+  <circle cx="400" cy="300" r="70" fill="#3b82f6" opacity="0.05"/>
+
+  <!-- Email envelope -->
+  <g transform="translate(180, 120)">
+    <rect x="0" y="0" width="140" height="100" rx="8" fill="#ffffff" stroke="url(#contactGrad)" stroke-width="3"/>
+    <path d="M 0 0 L 70 50 L 140 0" fill="none" stroke="url(#contactGrad)" stroke-width="3"/>
+    <line x1="0" y1="100" x2="50" y2="60" stroke="url(#contactGrad)" stroke-width="2"/>
+    <line x1="140" y1="100" x2="90" y2="60" stroke="url(#contactGrad)" stroke-width="2"/>
+  </g>
+
+  <!-- Support person with headset -->
+  <g transform="translate(100, 280)">
+    <circle cx="0" cy="0" r="40" fill="url(#contactGrad)" opacity="0.2"/>
+    <circle cx="0" cy="-5" r="15" fill="url(#contactGrad)"/>
+    <path d="M -15 10 Q -15 0 0 0 Q 15 0 15 10 L 15 20 Q 15 25 0 25 Q -15 25 -15 20 Z" fill="url(#contactGrad)"/>
+
+    <!-- Headset -->
+    <path d="M -20 -5 Q -20 -15 0 -15 Q 20 -15 20 -5" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+    <rect x="-22" y="-8" width="6" height="10" rx="2" fill="#ffffff"/>
+    <rect x="16" y="-8" width="6" height="10" rx="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Chat bubbles -->
+  <g transform="translate(320, 280)">
+    <rect x="0" y="0" width="100" height="60" rx="12" fill="#e2e8f0"/>
+    <path d="M 10 60 L 5 70 L 20 60" fill="#e2e8f0"/>
+    <line x1="15" y1="20" x2="85" y2="20" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+    <line x1="15" y1="35" x2="70" y2="35" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Phone -->
+  <g transform="translate(380, 100)">
+    <rect x="0" y="0" width="45" height="75" rx="6" fill="url(#contactGrad)" opacity="0.9"/>
+    <rect x="3" y="8" width="39" height="55" rx="3" fill="#ffffff"/>
+    <circle cx="22.5" cy="68" r="4" fill="#ffffff"/>
+    <line x1="15" y1="18" x2="30" y2="18" stroke="url(#contactGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="15" y1="25" x2="35" y2="25" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="15" y1="32" x2="30" y2="32" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Location pin -->
+  <g transform="translate(70, 140)">
+    <path d="M 0 0 Q -15 -25 0 -40 Q 15 -25 0 0" fill="#10b981"/>
+    <circle cx="0" cy="-28" r="6" fill="#ffffff"/>
+  </g>
+
+  <!-- Message sent indicator -->
+  <g transform="translate(420, 240)">
+    <circle cx="0" cy="0" r="20" fill="#10b981" opacity="0.2"/>
+    <path d="M -8 0 L -3 5 L 8 -8" stroke="#10b981" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Connection lines -->
+  <line x1="140" y1="280" x2="320" y2="280" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+  <line x1="250" y1="220" x2="380" y2="140" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5,5" opacity="0.5"/>
+</svg>

@@ -7,6 +7,14 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket  = "tf-state.gadgetcloud.io"
+    key     = "gc-tf-www/terraform.tfstate"
+    region  = "ap-south-1"
+    profile = "gc"
+    encrypt = true
+  }
 }
 
 provider "aws" {
