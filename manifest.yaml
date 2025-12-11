@@ -43,3 +43,8 @@ social_links:
     url: "https://instagram.com/gadgetcloud"
   - platform: YouTube
     url: "https://youtube.com/gadgetcloud"
+
+repository: https://github.com/gadgetcloud-io/gc-static-public-www-web
+author: Ganesh Butcha <ganesh@gadgetcloud.io>
+description: GadgetCloud Official Public Website
+license: GadgetCloud Internal Use Only
