@@ -468,20 +468,26 @@ All scripts use `yq` for YAML parsing and `jq` for JSON parsing. They support bo
 
 #### Staging (stg)
 - **S3 Bucket**: `stg.gadgetcloud.io` (ap-south-1)
-- **CloudFront Distribution**: Global CDN
+- **CloudFront Distribution**: `EOIMARPNX4A3E` (Global CDN)
+- **CloudFront Domain**: dbmr65efdpyk8.cloudfront.net
 - **Domain**: stg.gadgetcloud.io
+- **Route53**: A record (alias to CloudFront)
 - **ACM Certificate**: us-east-1 (CloudFront requirement)
 
 #### Production (prd)
 - **S3 Bucket**: `www.gadgetcloud.io` (ap-south-1)
-- **CloudFront Distribution**: Global CDN
+- **CloudFront Distribution**: `E1ISO98SXE9Q6G` (Global CDN)
+- **CloudFront Domain**: d1qxi81dkpyib0.cloudfront.net
 - **Domain**: www.gadgetcloud.io
+- **Route53**: A record (alias to CloudFront)
 - **ACM Certificate**: us-east-1 (CloudFront requirement)
 
 #### Apex Domain Redirect
 - **S3 Bucket**: `apex.gadgetcloud.io` (redirect only)
-- **CloudFront Distribution**: Global CDN
+- **CloudFront Distribution**: `E3DFNUCXAGBHT7` (Global CDN)
+- **CloudFront Domain**: d3jnwu5d123hec.cloudfront.net
 - **Domain**: gadgetcloud.io
+- **Route53**: A record (alias to CloudFront)
 - **Redirect Target**: www.gadgetcloud.io (HTTPS)
 - **Purpose**: Redirects apex domain to www subdomain
 

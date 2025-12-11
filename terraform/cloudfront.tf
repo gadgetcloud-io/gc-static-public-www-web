@@ -187,10 +187,10 @@ resource "aws_cloudfront_distribution" "production" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Production"
     Environment = "production"
-  }
+  })
 }
 
 # CloudFront Distribution for Staging
@@ -279,10 +279,10 @@ resource "aws_cloudfront_distribution" "staging" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Staging"
     Environment = "staging"
-  }
+  })
 }
 
 # CloudFront Origin Access Control for Apex Domain Redirect
@@ -333,8 +333,8 @@ resource "aws_cloudfront_distribution" "redirect" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Apex Redirect"
     Environment = "production"
-  }
+  })
 }

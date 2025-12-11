@@ -15,10 +15,13 @@ production_certificate_arn = "arn:aws:acm:us-east-1:860154085634:certificate/7f6
 staging_certificate_arn    = "arn:aws:acm:us-east-1:860154085634:certificate/7f6bb0d4-267c-4916-b68e-dc66a5cb0056"
 redirect_certificate_arn   = "arn:aws:acm:us-east-1:860154085634:certificate/7f6bb0d4-267c-4916-b68e-dc66a5cb0056"
 
+# Route53 Hosted Zone ID (use existing zone, do not create new)
+route53_zone_id = "Z0343056NAOP38G4LDLT"
+
 # Common Tags
 tags = {
   Project    = "GadgetCloud"
   ManagedBy  = "Terraform"
-  Repository = "gc-static-www-web"
+  Repository = "gc-static-public-www-web"
   Owner      = "GadgetCloud Team"
 }

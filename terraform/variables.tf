@@ -37,12 +37,17 @@ variable "redirect_certificate_arn" {
   type        = string
 }
 
+variable "route53_zone_id" {
+  description = "Route53 Hosted Zone ID for the domain (use existing zone, do not create new)"
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)
   default = {
     Project    = "GadgetCloud"
     ManagedBy  = "Terraform"
-    Repository = "gc-static-www-web"
+    Repository = "gc-static-public-www-web"
   }
 }

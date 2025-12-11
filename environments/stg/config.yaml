@@ -11,7 +11,7 @@ AWS_REGION: ap-south-1
 
 # Infrastructure (populated by Terraform)
 S3_BUCKET: stg.gadgetcloud.io
-CLOUDFRONT_ID: E3HK7UXEK4XGS1
+CLOUDFRONT_ID: EOIMARPNX4A3E
 
 # Deployment settings
 CACHE_HTML_SECONDS: 300        # 5 minutes

@@ -1,10 +1,10 @@
 # S3 Bucket for Production
 resource "aws_s3_bucket" "production" {
   bucket = var.production_domain
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Production Website"
     Environment = "production"
-  }
+  })
 }
 
 resource "aws_s3_bucket_public_access_block" "production" {
@@ -63,10 +63,10 @@ resource "aws_s3_bucket_policy" "production" {
 # S3 Bucket for Staging
 resource "aws_s3_bucket" "staging" {
   bucket = var.staging_domain
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Staging Website"
     Environment = "staging"
-  }
+  })
 }
 
 resource "aws_s3_bucket_public_access_block" "staging" {
@@ -126,10 +126,10 @@ resource "aws_s3_bucket_policy" "staging" {
 # Using apex.gadgetcloud.io as bucket name since gadgetcloud.io is globally taken
 resource "aws_s3_bucket" "redirect" {
   bucket = "apex.gadgetcloud.io"
-  tags = {
+  tags = merge(var.tags, {
     Name        = "GadgetCloud Apex Domain Redirect"
     Environment = "production"
-  }
+  })
 }
 
 resource "aws_s3_bucket_public_access_block" "redirect" {

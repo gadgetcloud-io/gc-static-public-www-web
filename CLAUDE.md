@@ -36,6 +36,7 @@ terraform/             # Infrastructure as Code
   ├── main.tf          # Provider configuration
   ├── s3.tf            # S3 buckets (stg, prd, redirect)
   ├── cloudfront.tf    # CloudFront distributions
+  ├── route53.tf       # Route53 DNS records (A records with CloudFront aliases)
   ├── variables.tf     # Input variables
   └── outputs.tf       # Output values
 environments/
@@ -239,16 +240,25 @@ CSS styling (src/css/styles.css:889-895):
 - S3: stg.gadgetcloud.io
 - CloudFront ID: E3HK7UXEK4XGS1
 - Domain: stg.gadgetcloud.io
+- Route53: A record (alias to CloudFront)
 
 **Production:**
 - S3: www.gadgetcloud.io
 - CloudFront ID: ETYXRKWP58UZ5
 - Domain: www.gadgetcloud.io
+- Route53: A record (alias to CloudFront)
 
 **Apex Redirect:**
 - S3: apex.gadgetcloud.io
 - CloudFront ID: E19OQ6L3JS9KJ5
 - Domain: gadgetcloud.io → www.gadgetcloud.io
+- Route53: A record (alias to CloudFront redirect)
+
+**DNS Configuration:**
+- Route53 Hosted Zone ID: Z0343056NAOP38G4LDLT (provided via terraform.tfvars)
+- Uses existing hosted zone (does NOT create new zones)
+- Includes MX, DKIM, DMARC, SPF records for email (managed outside Terraform)
+- A records for stg, www, and apex domains managed by Terraform via route53.tf
 
 ## Common Tasks
 
@@ -308,6 +318,60 @@ curl -X POST https://rest.gadgetcloud.io/forms \
 - Safe user input handling (read -r, regex validation)
 - Proper AWS authentication (profile-based only)
 
+## Terraform Destroy and Cleanup
+
+When destroying infrastructure with `terraform destroy`, S3 buckets with versioning enabled require special handling:
+
+### Standard Destroy (Will Fail)
+```bash
+terraform destroy -auto-approve  # Fails: BucketNotEmpty error
+```
+
+### Complete Cleanup Process
+```bash
+# 1. Empty all object versions and delete markers from buckets
+# Create cleanup script
+cat > /tmp/empty-versioned-bucket.sh << 'EOF'
+#!/bin/bash
+BUCKET=$1
+PROFILE=$2
+aws s3api list-object-versions --bucket "$BUCKET" --profile "$PROFILE" --output json --query 'Versions[].{Key:Key,VersionId:VersionId}' | \
+jq -r '.[] | @json' | while read -r obj; do
+  key=$(echo "$obj" | jq -r '.Key')
+  version=$(echo "$obj" | jq -r '.VersionId')
+  aws s3api delete-object --bucket "$BUCKET" --key "$key" --version-id "$version" --profile "$PROFILE" > /dev/null
+done
+aws s3api list-object-versions --bucket "$BUCKET" --profile "$PROFILE" --output json --query 'DeleteMarkers[].{Key:Key,VersionId:VersionId}' | \
+jq -r '.[] | @json' | while read -r obj; do
+  key=$(echo "$obj" | jq -r '.Key')
+  version=$(echo "$obj" | jq -r '.VersionId')
+  aws s3api delete-object --bucket "$BUCKET" --key "$key" --version-id "$version" --profile "$PROFILE" > /dev/null
+done
+EOF
+chmod +x /tmp/empty-versioned-bucket.sh
+
+# 2. Empty all buckets
+/tmp/empty-versioned-bucket.sh stg.gadgetcloud.io gc
+/tmp/empty-versioned-bucket.sh www.gadgetcloud.io gc
+
+# 3. Run terraform destroy
+cd terraform && terraform destroy -auto-approve
+```
+
+### Cleaning Up Route53 Hosted Zones
+
+Check for duplicate hosted zones (can occur from multiple terraform applies):
+```bash
+# List all hosted zones
+aws route53 list-hosted-zones --profile gc
+
+# Check which zone is active (domain nameservers)
+nslookup -type=NS gadgetcloud.io 8.8.8.8
+
+# Delete inactive zones (delete all records except NS/SOA first)
+aws route53 delete-hosted-zone --id <ZONE_ID> --profile gc
+```
+
 ## Important Constraints
 
 - **No build step**: This is a pure static site - all HTML/CSS/JS must work directly in browsers
@@ -316,3 +380,4 @@ curl -X POST https://rest.gadgetcloud.io/forms \
 - **Mobile-first**: All features must work on mobile viewports
 - **API rate limits**: Contact form has both client-side (10/hour) and server-side rate limiting
 - **AWS regions**: S3 in ap-south-1, ACM/CloudFront must be in us-east-1
+- **Route53**: Uses existing hosted zone (Z0343056NAOP38G4LDLT) - does NOT create new zones
