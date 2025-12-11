@@ -45,8 +45,7 @@ environments/
   ├── stg/config.yaml  # Staging environment config (stg.gadgetcloud.io)
   └── prd/config.yaml  # Production environment config (www.gadgetcloud.io)
 tests/                 # Playwright E2E tests
-manifest.yaml          # Site-wide configuration (menu, social links, metadata)
-VERSION                # Semantic version number (e.g., 1.0.0)
+manifest.yaml          # Site-wide configuration (menu, social links, metadata, version)
 ```
 
 ## Development Commands
@@ -203,13 +202,13 @@ Deployment-specific settings:
 
 ## Version Management
 
-### VERSION File
-The `VERSION` file contains the semantic version number (e.g., `1.0.0`). This version is automatically injected into HTML page footers during deployment.
+### Version Source
+The `manifest.yaml` file contains the semantic version number in the `version` field (e.g., `version: 1.0.0`). This version is automatically injected into HTML page footers during deployment.
 
 ### Version Injection Process
 ```bash
-# Script 04 reads VERSION file and generates build info:
-VERSION=$(cat VERSION)                              # e.g., "1.0.0"
+# Script 04 reads version from manifest.yaml and generates build info:
+VERSION=$(yq eval '.version' manifest.yaml)         # e.g., "1.0.0"
 BUILD_TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")         # e.g., "20251211142736"
 GIT_COMMIT=$(git rev-parse --short HEAD || echo "") # e.g., "a1b2c3d" or empty
 
@@ -231,7 +230,7 @@ CSS styling (src/css/styles.css:889-895):
 - Subtle gray color
 
 ### Updating Version
-1. Edit `VERSION` file with new semantic version
+1. Edit `version` field in `manifest.yaml` with new semantic version
 2. Run `./scripts/04_html_apply_manifest.sh --apply` to inject into HTML
 3. Build timestamp and git commit are generated automatically
 

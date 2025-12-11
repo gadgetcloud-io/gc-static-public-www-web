@@ -22,7 +22,6 @@ section() { echo -e "\n${CYAN}▶ $1${NC}\n"; }
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 MANIFEST_FILE="$ROOT_DIR/manifest.yaml"
-VERSION_FILE="$ROOT_DIR/VERSION"
 SRC_DIR="$ROOT_DIR/src"
 
 CHECKS_PASSED=0
@@ -60,17 +59,10 @@ check_pass "manifest.yaml exists"
 [ -d "$SRC_DIR" ] || error "src directory not found"
 check_pass "src directory exists"
 
-# Check or create VERSION file
-if [ ! -f "$VERSION_FILE" ]; then
-    warn "VERSION file not found - creating default"
-    echo "1.0.0" > "$VERSION_FILE"
-fi
-check_pass "VERSION file exists"
-
 # Read version and generate build info
 section "Reading Version Information"
 
-VERSION=$(cat "$VERSION_FILE" | tr -d '\n')
+VERSION=$(yq eval '.version' "$MANIFEST_FILE")
 BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
 BUILD_TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
 GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "")
