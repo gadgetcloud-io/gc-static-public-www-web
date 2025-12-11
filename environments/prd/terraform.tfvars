@@ -1,0 +1,5 @@
+aws_profile = "gc"
+environment = "prd"
+domain_name = "gadgetcloud.io"
+bucket_name = "www.gadgetcloud.io"
+cloudfront_certificate_arn = "arn:aws:acm:us-east-1:860154085634:certificate/7f6bb0d4-267c-4916-b68e-dc66a5cb0056"

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 230 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagon with G - two tone -->
+  <g transform="translate(8, 5)">
+    <!-- Hexagon left half -->
+    <polygon points="22,3 4,13 4,33 22,43 22,3" fill="#3b82f6"/>
+    <!-- Hexagon right half -->
+    <polygon points="22,3 40,13 40,33 22,43 22,3" fill="#0ea5e9"/>
+
+    <!-- Letter G stylized -->
+    <text x="22" y="32" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800" fill="white" text-anchor="middle">G</text>
+  </g>
+
+  <!-- Two-tone text -->
+  <text x="55" y="38" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">
+    <tspan fill="#3b82f6">Gadget</tspan><tspan fill="#0ea5e9">Cloud</tspan>
+  </text>
+</svg>

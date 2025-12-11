@@ -1,0 +1,19 @@
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored to prevent accidental commits of sensitive data
+
+aws_region  = "us-east-1"
+aws_profile = "gc"
+
+production_domain = "www.gadgetcloud.io"
+staging_domain    = "stg.gadgetcloud.io"
+
+# ACM Certificate ARNs (must be in us-east-1 for CloudFront)
+# Create certificates in AWS Certificate Manager and validate via DNS
+production_certificate_arn = "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERTIFICATE_ID"
+staging_certificate_arn    = "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERTIFICATE_ID"
+
+tags = {
+  Project     = "GadgetCloud"
+  ManagedBy   = "Terraform"
+  Repository  = "gc-static-www-web"
+}

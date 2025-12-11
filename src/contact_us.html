@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://rest.gadgetcloud.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://rest.gadgetcloud.io;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="description" content="Get in touch with the GadgetCloud team for support and inquiries.">
+    <title>Contact Us - GadgetCloud</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo"><img src="images/logos/logo3-hexagon.svg" alt="GadgetCloud" height="52"></a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about_us.html">About</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact_us.html" class="active">Contact</a></li>
+                <li><a href="https://my.gadgetcloud.io" class="btn btn-primary">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>Need coverage clarity, help with claims, or a product demo? We’re here to respond fast.</p>
+            </div>
+        </section>
+
+        <section class="content-section section-decoration">
+            <div class="container">
+                <div class="split">
+                    <div>
+                        <div class="section-eyebrow">Reach out</div>
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" id="firstName" name="firstName" required placeholder="John" minlength="2" maxlength="50">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" name="lastName" required placeholder="Doe" minlength="2" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required placeholder="john@example.com" maxlength="255">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" required placeholder="Tell us more about your inquiry..." minlength="10" maxlength="1000"></textarea>
+                                </div>
+                                <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off">
+                                <div id="formStatus" class="form-status"></div>
+                                <button type="submit" class="btn btn-primary btn-large w-full">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <h3>What to expect</h3>
+                        <ul class="list-check">
+                            <li><span class="check">✓</span><span>Coverage help: warranty, guaranty, and insurance claim guidance.</span></li>
+                            <li><span class="check">✓</span><span>Product demos: see how to centralize devices, documents, and reminders.</span></li>
+                            <li><span class="check">✓</span><span>Support: quick responses for Pro and Enterprise customers.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section alt">
+            <div class="container">
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h3>Email</h3>
+                        <p>General inquiries:<br><a href="mailto:hello@gadgetcloud.io">hello@gadgetcloud.io</a></p>
+                        <p>Customer support and claims:<br><a href="mailto:support@gadgetcloud.io">support@gadgetcloud.io</a></p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Location</h3>
+                        <p>Kakinada, Andhra Pradesh<br>533001, India</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Support Hours</h3>
+                        <p>Monday - Friday<br>9:00 AM - 6:00 PM IST</p>
+                        <p>Priority weekend support for Pro and Enterprise customers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo"><img src="images/logos/logo3-hexagon.svg" alt="GadgetCloud" height="52"></a>
+                    <p>Your Gadgets, Your Cloud.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about_us.html">About Us</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact_us.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>Kakinada, AP 533001<br>India</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GadgetCloud. All rights reserved.</p>
+            </div>
+        </div>
+        <div class="version-info">v1.0.0 | Build 20251211142736</div>
+    </footer>
+
+    <script src="js/main.js?v=20251206173925"></script>
+</body>
+</html>

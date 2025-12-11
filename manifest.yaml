@@ -1,0 +1,45 @@
+name: www.gadgetcloud.io
+version: 0.0.1
+
+site_title: GadgetCloud
+header: "Your Gadgets, Your Cloud."
+footer: "© 2025 GadgetCloud. All rights reserved."
+default_description: "Store, Manage, and Access Your Gadgets Seamlessly."
+address:
+  street: ""
+  city: Kakinada
+  state: AP
+  zip: "533001"
+  country: IN
+menu_items:
+  - text: Home
+    link: index.html
+    title: Home - GadgetCloud
+    description: "Welcome to GadgetCloud - Your Ultimate Gadget Storage Solution."
+  - text: About
+    link: about_us.html
+    title: About Us - GadgetCloud
+    description: "Learn more about GadgetCloud and our mission to simplify gadget storage."
+  - text: Products
+    link: products.html
+    title: Products - GadgetCloud
+    description: "Explore our range of products designed to enhance your gadget storage experience."
+  - text: Services
+    link: services.html
+    title: Services - GadgetCloud
+    description: "Discover the services we offer to help you manage and access your gadgets."
+  - text: Contact
+    link: contact_us.html
+    title: Contact Us - GadgetCloud
+    description: "Get in touch with the GadgetCloud team for support and inquiries."
+social_links:
+  - platform: Twitter
+    url: "https://twitter.com/gadgetcloud"
+  - platform: Facebook
+    url: "https://facebook.com/gadgetcloud"
+  - platform: LinkedIn
+    url: "https://linkedin.com/company/gadgetcloud"
+  - platform: Instagram   
+    url: "https://instagram.com/gadgetcloud"
+  - platform: YouTube
+    url: "https://youtube.com/gadgetcloud"

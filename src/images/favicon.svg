@@ -1,0 +1,6 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagon favicon - two tone -->
+  <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="#3b82f6"/>
+  <polygon points="16,2 30,9 30,23 16,30 16,2" fill="#0ea5e9"/>
+  <text x="16" y="22" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="white" text-anchor="middle">G</text>
+</svg>
