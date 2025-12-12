@@ -176,9 +176,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Get forms API endpoint from meta tag
             const formsEndpointMeta = document.querySelector('meta[name="forms-api-endpoint"]');
-            const formsEndpoint = formsEndpointMeta
+            let formsEndpoint = formsEndpointMeta
                 ? formsEndpointMeta.getAttribute('content')
                 : 'rest.gadgetcloud.io/forms'; // Fallback
+
+            // Check if endpoint is still a placeholder (not replaced during deployment)
+            if (formsEndpoint && (formsEndpoint.includes('{{') || formsEndpoint.includes('}}'))) {
+                formsEndpoint = 'rest.gadgetcloud.io/forms'; // Use fallback for local testing
+            }
 
             // Ensure endpoint has protocol
             const apiUrl = formsEndpoint.startsWith('http')

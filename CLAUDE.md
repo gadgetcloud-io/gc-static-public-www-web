@@ -125,29 +125,41 @@ npx playwright test --ui              # Run in UI mode
 ## Key Implementation Details
 
 ### Contact Form Flow
-1. **Client-side validation**: HTML5 required fields, email format
+1. **Client-side validation**: HTML5 required fields (firstName, lastName, email, subject, message), email format
 2. **Honeypot field**: Hidden `_gotcha` input to catch bots
 3. **Rate limiting**: localStorage-based (10 submissions per hour)
-4. **Source tracking**: Captures UTM parameters, referrer, page URL, user agent
-5. **API submission**: POST to `https://rest.gadgetcloud.io/forms` with JSON payload
-6. **Test mode**: Playwright tests inject `isTest: true` flag to prevent email sending
+4. **Source tracking**: Captures UTM parameters, referrer, page URL
+5. **API submission**: POST to `https://rest.gadgetcloud.io/forms?type=contacts` with JSON payload
+6. **Test mode**: Playwright tests mock API responses to prevent actual email sending
 
 ### Form Data Structure
+**Backend Integration:** gc-py-public-forms-svc (commit ac14776)
+
 ```javascript
+// Query Parameter: ?type=contacts
+// Request Body (flat structure):
 {
-  formType: "contacts",
-  firstName: string,
-  lastName: string,
-  email: string,
-  message: string,
-  tags: {
-    source: string,        // UTM source, referrer domain, or "direct"
-    referrer: string,      // Full referrer URL
-    pageUrl: string,       // Submission page URL
-    userAgent: string,     // Browser user agent
-    isTest: boolean,       // Set to true for test submissions
-    submittedAt: string    // ISO timestamp
-  }
+  firstName: string,      // Required, min 2 chars, max 50 chars
+  lastName: string,       // Required, min 2 chars, max 50 chars
+  email: string,          // Required, email format, max 255 chars
+  subject: string,        // Required, min 5 chars, max 100 chars
+  message: string,        // Required, min 10 chars, max 1000 chars
+  source: string,         // UTM source, referrer domain, or "direct"
+  referrer: string,       // Full referrer URL or "direct"
+  pageUrl: string         // Submission page URL
+}
+
+// Success Response:
+{
+  success: true,
+  submission_id: string,  // e.g., "FSM-UANG5VZ1QA"
+  message: string
+}
+
+// Error Response:
+{
+  error: string,          // Error message
+  message?: string        // Optional detailed message
 }
 ```
 
@@ -293,11 +305,35 @@ All styles in `src/css/styles.css`:
 - Component styles organized by section
 
 ### Testing form API locally
-Use the test script or curl:
+Test the actual backend API with curl:
 ```bash
-curl -X POST https://rest.gadgetcloud.io/forms \
+# Test staging environment
+curl -X POST "https://rest-stg.gadgetcloud.io/forms?type=contacts" \
   -H "Content-Type: application/json" \
-  -d '{"formType":"contacts","firstName":"Test","lastName":"User","email":"test@example.com","message":"Test message","tags":{"isTest":true}}'
+  -d '{
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "subject": "Test Subject",
+    "message": "Test message content for API validation",
+    "source": "direct",
+    "referrer": "direct",
+    "pageUrl": "http://localhost:8000/contact_us.html"
+  }'
+
+# Test production environment
+curl -X POST "https://rest.gadgetcloud.io/forms?type=contacts" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "test@example.com",
+    "subject": "Test Subject",
+    "message": "Test message for production API",
+    "source": "direct",
+    "referrer": "direct",
+    "pageUrl": "https://www.gadgetcloud.io/contact_us.html"
+  }'
 ```
 
 ## Security
