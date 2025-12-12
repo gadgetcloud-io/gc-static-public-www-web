@@ -131,7 +131,8 @@ npx playwright test --ui              # Run in UI mode
 4. **Source tracking**: Captures UTM parameters, referrer, page URL
 5. **Referral tracking**: Captures `referredBy` parameter from URL for affiliate/partner tracking
 6. **API submission**: POST to `https://rest.gadgetcloud.io/forms?type=contacts` with JSON payload
-7. **Test mode**: Playwright tests mock API responses to prevent actual email sending
+7. **Success confirmation**: Displays submission ID (e.g., "Confirmation: FSM-UANG5VZ1QA") upon successful submission
+8. **Test mode**: Playwright tests mock API responses to prevent actual email sending
 
 ### Form Data Structure
 **Backend Integration:** gc-py-public-forms-svc (commit ac14776)
@@ -154,9 +155,12 @@ npx playwright test --ui              # Run in UI mode
 // Success Response:
 {
   success: true,
-  submission_id: string,  // e.g., "FSM-UANG5VZ1QA"
+  submission_id: string,  // e.g., "FSM-UANG5VZ1QA" - Displayed to user as confirmation
   message: string
 }
+
+// Success Message Displayed to User:
+// "Thank you for your message! We will get back to you soon. Confirmation: FSM-UANG5VZ1QA"
 
 // Error Response:
 {

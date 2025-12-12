@@ -224,7 +224,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     recordSubmission(); // Track successful submission for rate limiting
-                    formStatus.textContent = 'Thank you for your message! We will get back to you soon.';
+
+                    // Parse response to get submission ID
+                    const result = await response.json().catch(() => ({}));
+                    const submissionId = result.submission_id || '';
+
+                    // Display success message with submission ID
+                    if (submissionId) {
+                        formStatus.textContent = `Thank you for your message! We will get back to you soon. Confirmation: ${submissionId}`;
+                    } else {
+                        formStatus.textContent = 'Thank you for your message! We will get back to you soon.';
+                    }
+
                     formStatus.className = 'form-status success';
                     formStatus.style.display = 'block';
                     contactForm.reset();

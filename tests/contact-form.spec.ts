@@ -77,9 +77,10 @@ test.describe('Contact Form Submission', () => {
     // Submit the form
     await page.click('button[type="submit"]');
 
-    // Wait for success message
+    // Wait for success message with submission ID
     const formStatus = page.locator('#formStatus');
-    await expect(formStatus).toHaveText('Thank you for your message! We will get back to you soon.', { timeout: 10000 });
+    await expect(formStatus).toContainText('Thank you for your message! We will get back to you soon.', { timeout: 10000 });
+    await expect(formStatus).toContainText('Confirmation: FSM-TEST123');
     await expect(formStatus).toHaveClass(/success/);
 
     // Verify button returns to normal state
@@ -236,7 +237,10 @@ test.describe('Contact Form Submission', () => {
     await page.click('button[type="submit"]');
 
     // Wait for submission to complete
-    await expect(page.locator('#formStatus')).toHaveClass(/success/, { timeout: 10000 });
+    const formStatus = page.locator('#formStatus');
+    await expect(formStatus).toContainText('Thank you for your message!', { timeout: 10000 });
+    await expect(formStatus).toContainText('Confirmation: FSM-TEST789');
+    await expect(formStatus).toHaveClass(/success/);
 
     // Verify referredBy was captured
     expect(capturedRequest).not.toBeNull();

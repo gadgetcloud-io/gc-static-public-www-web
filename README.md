@@ -29,7 +29,7 @@ Pure static HTML/CSS/JavaScript website deployed to AWS (S3 + CloudFront) with e
 - **AWS Deployment**: S3 hosting with CloudFront CDN
 - **Security**: CSP headers, HTTPS-only, secure form submission
 - **Responsive**: Mobile-first design with hamburger navigation
-- **Contact Form**: Integrated with REST API backend
+- **Contact Form**: Integrated with REST API backend, displays submission ID confirmation
 - **Environment-Aware**: Separate staging and production configurations
 - **Infrastructure as Code**: Terraform for AWS resources
 
