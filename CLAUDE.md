@@ -129,8 +129,9 @@ npx playwright test --ui              # Run in UI mode
 2. **Honeypot field**: Hidden `_gotcha` input to catch bots
 3. **Rate limiting**: localStorage-based (10 submissions per hour)
 4. **Source tracking**: Captures UTM parameters, referrer, page URL
-5. **API submission**: POST to `https://rest.gadgetcloud.io/forms?type=contacts` with JSON payload
-6. **Test mode**: Playwright tests mock API responses to prevent actual email sending
+5. **Referral tracking**: Captures `referredBy` parameter from URL for affiliate/partner tracking
+6. **API submission**: POST to `https://rest.gadgetcloud.io/forms?type=contacts` with JSON payload
+7. **Test mode**: Playwright tests mock API responses to prevent actual email sending
 
 ### Form Data Structure
 **Backend Integration:** gc-py-public-forms-svc (commit ac14776)
@@ -146,7 +147,8 @@ npx playwright test --ui              # Run in UI mode
   message: string,        // Required, min 10 chars, max 1000 chars
   source: string,         // UTM source, referrer domain, or "direct"
   referrer: string,       // Full referrer URL or "direct"
-  pageUrl: string         // Submission page URL
+  pageUrl: string,        // Submission page URL
+  referredBy?: string     // Optional: Affiliate/partner identifier from URL parameter
 }
 
 // Success Response:
@@ -162,6 +164,28 @@ npx playwright test --ui              # Run in UI mode
   message?: string        // Optional detailed message
 }
 ```
+
+### Referral Tracking
+
+The contact form automatically captures the `referredBy` URL parameter for tracking affiliate and partner referrals.
+
+**Usage Examples:**
+```bash
+# Affiliate link
+https://www.gadgetcloud.io/contact_us.html?referredBy=affiliate-partner-123
+
+# Partner campaign
+https://www.gadgetcloud.io/contact_us.html?referredBy=tech-blog-promo
+
+# Combined with other parameters
+https://www.gadgetcloud.io/contact_us.html?utm_source=newsletter&referredBy=email-campaign-Q4
+```
+
+**Implementation:**
+- Extracted from URL via `URLSearchParams`
+- Only included in payload if present
+- Stored in form submission for analytics and attribution
+- Compatible with other tracking parameters (UTM, source, etc.)
 
 ### Navigation System
 - Mobile-responsive hamburger menu (toggles `.active` class)

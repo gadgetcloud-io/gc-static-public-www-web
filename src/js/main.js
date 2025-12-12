@@ -144,6 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'direct';
     }
 
+    // Get referredBy from URL parameter
+    function getReferredBy() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('referredBy') || null;
+    }
+
     // Form submission handling
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
@@ -200,6 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 referrer: document.referrer || 'direct',
                 pageUrl: window.location.href
             };
+
+            // Add referredBy if present in URL
+            const referredBy = getReferredBy();
+            if (referredBy) {
+                formData.referredBy = referredBy;
+            }
 
             try {
                 const response = await fetch(`${apiUrl}?type=contacts`, {

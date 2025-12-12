@@ -154,6 +154,7 @@ test.describe('Contact Form Submission', () => {
       source?: string;
       referrer?: string;
       pageUrl?: string;
+      referredBy?: string;
     } | null = null;
 
     // Intercept and capture the request, then mock response
@@ -193,5 +194,52 @@ test.describe('Contact Form Submission', () => {
     expect(capturedRequest!.source).toBeDefined();
     expect(capturedRequest!.referrer).toBeDefined();
     expect(capturedRequest!.pageUrl).toBeDefined();
+  });
+
+  test('form submission includes referredBy from URL parameter', async ({ page }) => {
+    let capturedRequest: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      subject: string;
+      message: string;
+      referredBy?: string;
+    } | null = null;
+
+    // Intercept and capture the request
+    await page.route((url) => url.hostname.includes('rest.gadgetcloud.io') || url.hostname.includes('rest-stg.gadgetcloud.io'), async (route) => {
+      const request = route.request();
+      capturedRequest = JSON.parse(request.postData() || '{}');
+
+      // Mock successful response
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true, submission_id: 'FSM-TEST789', message: 'Form submitted successfully' }),
+      });
+    });
+
+    // Navigate to contact page with referredBy parameter
+    await page.goto('/contact_us.html?referredBy=affiliate-partner-123');
+
+    // Clear rate limit
+    await page.evaluate(() => localStorage.removeItem('gc_form_submissions'));
+
+    // Fill in the form
+    await page.fill('#firstName', 'Referral');
+    await page.fill('#lastName', 'Test');
+    await page.fill('#email', 'referral@example.com');
+    await page.fill('#subject', 'Referral Test');
+    await page.fill('#message', 'Testing referredBy parameter capture from URL.');
+
+    // Submit the form
+    await page.click('button[type="submit"]');
+
+    // Wait for submission to complete
+    await expect(page.locator('#formStatus')).toHaveClass(/success/, { timeout: 10000 });
+
+    // Verify referredBy was captured
+    expect(capturedRequest).not.toBeNull();
+    expect(capturedRequest!.referredBy).toBe('affiliate-partner-123');
   });
 });
