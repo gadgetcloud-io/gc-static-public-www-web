@@ -174,24 +174,30 @@ document.addEventListener('DOMContentLoaded', function() {
             formStatus.textContent = '';
             formStatus.className = 'form-status';
 
+            // Get forms API endpoint from meta tag
+            const formsEndpointMeta = document.querySelector('meta[name="forms-api-endpoint"]');
+            const formsEndpoint = formsEndpointMeta
+                ? formsEndpointMeta.getAttribute('content')
+                : 'rest.gadgetcloud.io/forms'; // Fallback
+
+            // Ensure endpoint has protocol
+            const apiUrl = formsEndpoint.startsWith('http')
+                ? formsEndpoint
+                : `https://${formsEndpoint}`;
+
             const formData = {
-                formType: 'contacts',
                 firstName: contactForm.firstName.value.trim(),
                 lastName: contactForm.lastName.value.trim(),
                 email: contactForm.email.value.trim(),
+                subject: contactForm.subject.value.trim(),
                 message: contactForm.message.value.trim(),
-                tags: {
-                    source: getSource(),
-                    referrer: document.referrer || 'direct',
-                    pageUrl: window.location.href,
-                    userAgent: navigator.userAgent,
-                    isTest: false,
-                    submittedAt: new Date().toISOString()
-                }
+                source: getSource(),
+                referrer: document.referrer || 'direct',
+                pageUrl: window.location.href
             };
 
             try {
-                const response = await fetch('https://rest.gadgetcloud.io/forms', {
+                const response = await fetch(`${apiUrl}?type=contacts`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

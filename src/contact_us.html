@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://rest.gadgetcloud.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://rest.gadgetcloud.io;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://rest.gadgetcloud.io https://rest-stg.gadgetcloud.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://rest.gadgetcloud.io https://rest-stg.gadgetcloud.io;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="description" content="Get in touch with the GadgetCloud team for support and inquiries.">
+    <meta name="forms-api-endpoint" content="{{FORMS_HOST_NAME}}">
     <title>Contact Us - GadgetCloud</title>
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
@@ -63,6 +64,10 @@
                                 <div class="form-group">
                                     <label for="email">Email Address</label>
                                     <input type="email" id="email" name="email" required placeholder="john@example.com" maxlength="255">
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <input type="text" id="subject" name="subject" required placeholder="How can we help?" minlength="5" maxlength="100">
                                 </div>
                                 <div class="form-group">
                                     <label for="message">Message</label>

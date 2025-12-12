@@ -16,3 +16,5 @@ CLOUDFRONT_ID: E1ISO98SXE9Q6G
 # Deployment settings
 CACHE_HTML_SECONDS: 300        # 5 minutes
 CACHE_ASSETS_SECONDS: 31536000 # 1 year
+
+formsHostName: rest.gadgetcloud.io/forms

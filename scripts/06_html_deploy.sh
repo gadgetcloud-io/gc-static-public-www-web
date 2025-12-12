@@ -68,6 +68,7 @@ CLOUDFRONT_ID=$(yq eval '.CLOUDFRONT_ID' "$CONFIG_FILE")
 HOSTNAME=$(yq eval '.hostName' "$CONFIG_FILE")
 CACHE_HTML=$(yq eval '.CACHE_HTML_SECONDS' "$CONFIG_FILE")
 CACHE_ASSETS=$(yq eval '.CACHE_ASSETS_SECONDS' "$CONFIG_FILE")
+FORMS_HOST_NAME=$(yq eval '.formsHostName' "$CONFIG_FILE")
 
 info "AWS Profile: $AWS_PROFILE"
 info "AWS Region: $AWS_REGION"
@@ -76,6 +77,7 @@ info "CloudFront ID: $CLOUDFRONT_ID"
 info "Hostname: $HOSTNAME"
 info "HTML Cache: ${CACHE_HTML}s"
 info "Assets Cache: ${CACHE_ASSETS}s"
+info "Forms API: $FORMS_HOST_NAME"
 
 # Verify AWS credentials
 aws sts get-caller-identity --profile "$AWS_PROFILE" &>/dev/null || error "AWS credentials not valid for profile: $AWS_PROFILE"
@@ -143,12 +145,33 @@ IMAGE_COUNT=$(find "$SRC_DIR/images" -type f 2>/dev/null | wc -l | tr -d ' ')
 
 info "Uploaded: $CSS_COUNT CSS, $JS_COUNT JS, $IMAGE_COUNT images"
 
+# Prepare HTML files with config injection
+section "Preparing HTML Files"
+
+BUILD_DIR="$ROOT_DIR/.build"
+rm -rf "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"
+
+info "Processing HTML files with config injection..."
+
+# Process each HTML file
+for html_file in "$SRC_DIR"/*.html; do
+    if [ -f "$html_file" ]; then
+        filename=$(basename "$html_file")
+        # Replace {{FORMS_HOST_NAME}} placeholder
+        sed "s|{{FORMS_HOST_NAME}}|$FORMS_HOST_NAME|g" "$html_file" > "$BUILD_DIR/$filename"
+        info "Processed: $filename"
+    fi
+done
+
+success "HTML files prepared"
+
 # Sync HTML files with short cache
 section "Deploying HTML Files"
 
 info "Uploading with ${CACHE_HTML}s cache..."
 
-aws s3 sync "$SRC_DIR/" "s3://$S3_BUCKET/" \
+aws s3 sync "$BUILD_DIR/" "s3://$S3_BUCKET/" \
     --profile "$AWS_PROFILE" \
     --region "$AWS_REGION" \
     --cache-control "max-age=$CACHE_HTML" \
